@@ -19,15 +19,15 @@ public class ChenBillDetector extends BaseDetector implements IDetector{
 		
 		int count = 1;
 		int backgroundSampleCount = 0; //the number of samples detecting background
-		int billSampleCount = 0; //the number of samples detecing presence of a bill
+		int billSampleCount = 0; //the number of samples detecting presence of a bill
 		
 		//read the LATEST number of samples (at the end of latestSamples list)
 		while(count <= SAMPLE_SIZE){
 			float sample = normalizeSample(latestSamples.get(latestSamples.size() - count));
 			
 			//Our background is dark gray so sample is either a big number or a small number
-			//Anything in between most likely indicate presence of
-			if(sample < 0.12 || sample > 0.92)
+			//Anything in between most likely indicate presence of a bill
+			if(sample < 0.15 || sample > 0.92)
 				backgroundSampleCount++;
 			else
 				billSampleCount++;
