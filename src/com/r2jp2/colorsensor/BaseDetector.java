@@ -19,7 +19,6 @@ public class BaseDetector implements IDetector{
 		
 		latestSamples.add(sample);
 		isBillDetected = detectBill();
-			
 	}
 
 	//need to be overwritten

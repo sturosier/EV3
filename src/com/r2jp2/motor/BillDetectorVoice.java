@@ -37,6 +37,7 @@ public class BillDetectorVoice {
 		
 		if(fileName == null)
 		{
+			System.out.println("did not find wav file.");
 			return;
 		}
 		
@@ -48,6 +49,8 @@ public class BillDetectorVoice {
 		 //www.online-convert.com (convert to wav)
 		 //ttsreader.com (voice recorder)
 		 File myFile = new File(voiceFile);
-	     Sound.playSample(myFile); 
+		 //Sound.setVolume(100);
+
+	     System.out.println("About to play for: " + Sound.playSample(myFile,100)); 
 	 }
 }

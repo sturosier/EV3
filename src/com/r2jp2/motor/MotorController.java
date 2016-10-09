@@ -9,8 +9,8 @@ public class MotorController {
 	private RegulatedMotor armMotor;
 	private RegulatedMotor rollerMotor;
 	
-	private final int ARM_MOTOR_UP_ANGLE = 50; //angle at which the wheel is up
-	private final int ARM_MOTOR_DOWN_ANGLE = -50; //angle at which the wheel is down
+	private final int ARM_MOTOR_UP_ANGLE = -50; //angle at which the wheel is up
+	private final int ARM_MOTOR_DOWN_ANGLE = 50; //angle at which the wheel is down
 	private final int ROLLER_MOTOR_SPEED = 25;
 	private final int ARM_MOTOR_SPEED = 25;
 	

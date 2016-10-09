@@ -1,17 +1,14 @@
 package com.r2jp2.colorsensor;
 
-import java.awt.Button;
-
-import com.r2jp2.colorsensor.IDetector.BillDetected;
-import com.r2jp2.motor.MotorController;
-
 import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.Key;
 import lejos.hardware.port.Port;
-import lejos.hardware.port.MotorPort;
-import lejos.hardware.port.SensorPort;
+import lejos.robotics.Color;
 import lejos.utility.Delay;
+
+import com.r2jp2.motor.BillDetectorVoice;
+import com.r2jp2.motor.MotorController;
 
 public class MainController {
 
@@ -42,39 +39,62 @@ public class MainController {
 
 	private void waitForBillDetectorState(boolean isBillDetected) {
 
-		while (billDetector.isBillDetected() == isBillDetected) {
+		while (billDetector.isBillDetected() != isBillDetected) {
 			Float[] sample = colorSensorController.sample();
+			//System.out.println("ts:" + System.currentTimeMillis());
+			/*
+			 * for (Float f : sample) {
+			 * System.out.println(f.doubleValue()+", "); }
+			 */
 			billDetector.newSample(sample);
 
-			Delay.msDelay(50);
+			Delay.msDelay(100);
 		}
 	}
 
 	public void start() {
 
-		// motorController.resetMotors();
-		// Delay.msDelay(1000);
-		// motorController.startSpinning();
-		// Delay.msDelay(4000);
+		BillDetectorVoice voice = new BillDetectorVoice();
+		
+		voice.sortBill(Color.PINK);
+//		while (escapeKey.isUp()) {
+//			//voice.sortBill(Color.WHITE);
+//			
+//			Delay.msDelay(6000);
+//			
+//			// wait for someone to insert bill
+//			waitForBillDetectorState(true);
+//			motorController.lowerArm();
+//
+//			Delay.msDelay(1000);
+//			motorController.startSpinning();
+//			waitForBillDetectorState(false);
+//			motorController.resetMotors();
+//		
+//			Delay.msDelay(1000);
+//	
+//		}
+		motorController.destroy();
+		colorSensorController.destroy();
+		//
 		// motorController.startSpinningBackward();
 		// Delay.msDelay(2000);
 		// motorController.startSpinning();
 		// Delay.msDelay(6000);
 		// motorController.lowerArm();
-		while (escapeKey.isUp()) {
-			double avg = 0;
-			Float[] sample = colorSensorController.sample();
-			for (Float f : sample) {
-				System.out.print(f.doubleValue()+",");
-				avg += f.doubleValue();
-			}
-			//System.out.println("Sample: " + sample);
-			System.out.println("avg: " + avg / sample.length);
-			Delay.msDelay(500);
-		}
+		// while (escapeKey.isUp()) {
+		//
+		// double avg = 0;
+		// Float[] sample = colorSensorController.sample();
+		// for (Float f : sample) {
+		// System.out.println(f.doubleValue()+", ");
+		// avg += f.doubleValue();
+		// }
+		// //System.out.println("Sample: " + sample);
+		// //System.out.println("avg: " + avg / sample.length);
+		// Delay.msDelay(500);
+		// }
 
-		// //wait for someone to insert bill
-		// waitForBillDetectorState(true);
 		//
 		// motorController.lowerArm();
 		// motorController.startSpinning();
@@ -88,8 +108,6 @@ public class MainController {
 		//
 		// //Output bill type
 		//
-		// motorController.destroy();
-		// colorSensorController.destroy();
 
 	}
 }
