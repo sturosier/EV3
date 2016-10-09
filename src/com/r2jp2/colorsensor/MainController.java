@@ -12,10 +12,6 @@ import com.r2jp2.motor.MotorController;
 
 public class MainController {
 
-	/*
-	 * public enum ProgramStatus{ Pause, Running, Quit }
-	 */
-
 	private Brick brick;
 	private Key escapeKey;
 	private Key enterKey;

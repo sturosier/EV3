@@ -8,7 +8,7 @@ public class BaseDetector implements IDetector{
 	protected boolean isBillDetected = false;
 	protected BillDetected billDetected = BillDetected.UNKNOWN;
 	
-	private final int MAX_SAMPLE_SIZE = 500;
+	private final int MAX_SAMPLE_SIZE = 100;
 	protected List<Float[]> latestSamples = new ArrayList<Float[]>(); //Oldest sample at beginning of list
 	
 
@@ -33,7 +33,6 @@ public class BaseDetector implements IDetector{
 	
 	
 	//need to be overwritten
-	@Override
 	public BillDetected recognizeBill() {
 		return BillDetected.UNKNOWN;
 	}
