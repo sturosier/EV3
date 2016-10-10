@@ -31,7 +31,6 @@ public class MainController {
 		colorSensorController = new ColorSensorController(colorSensorPort);
 		motorController = new MotorController(armMotorPort, rollerMotorPort);
 		billDetector = new ChenBillDetector();
-		// newBillDetector = new ChenBillDetector();
 	}
 
 	private void waitForBillDetectorState(boolean isBillDetected) {
@@ -62,65 +61,35 @@ public class MainController {
 	public void start() {
 
 		BillDetectorVoice voice = new BillDetectorVoice();
+		// Begin Init Process
 		motorController.lowerArm();
+		/* Note:
+		 * To initialize: 
+		 * 1) Wait for sensor values to stabalize
+		 * 2) Wait until arm comes to rest in the up position		 * 
+		 */
 		initThreshold();
 		motorController.raiseArm();
+		// End Init Process
 		while (escapeKey.isUp()) {
 			Delay.msDelay(1000);
 			motorController.lowerArm();
-			// wait for someone to insert bill
+			// Wait for Bill Insertion
 			Delay.msDelay(1000);
 			waitForBillDetectorState(true);
 			Delay.msDelay(750);
-			//motorController.lowerArm();
 			System.out.println("detected bill:");
 			motorController.startSpinning();
 			Delay.msDelay(1000);
-			// wait for the bill to disappear
+			// <PROCESS BILL>
+			// Wait for Bill to Disappear
 			waitForBillDetectorState(false);
 			System.out.println("done detecting bill.");
-			// motorController.startSpinningBackward();
-			// //detect bill going backward
-			// waitForBillDetectorState(true);
-			// //wait for the bill to disappear (user takes bill)
-			// waitForBillDetectorState(false);
+			// TODO: Potentially spit bill back out?
 			motorController.resetMotors();
 			Delay.msDelay(4000);
 		}
 		motorController.destroy();
 		colorSensorController.destroy();
-		//
-		//
-		// Delay.msDelay(2000);
-		// motorController.startSpinning();
-		// Delay.msDelay(6000);
-		// motorController.lowerArm();
-		// while (escapeKey.isUp()) {
-		//
-		// double avg = 0;
-		// Float[] sample = colorSensorController.sample();
-		// for (Float f : sample) {
-		// System.out.println(f.doubleValue()+", ");
-		// avg += f.doubleValue();
-		// }
-		// //System.out.println("Sample: " + sample);
-		// //System.out.println("avg: " + avg / sample.length);
-		// Delay.msDelay(500);
-		// }
-
-		//
-		// motorController.lowerArm();
-		// motorController.startSpinning();
-		//
-		// //wait for bill to scroll across the sensor
-		// waitForBillDetectorState(false);
-		//
-		// motorController.resetMotors();
-		//
-		// BillDetected billType = billDetector.recognizeBill();
-		//
-		// //Output bill type
-		//
-
 	}
 }
