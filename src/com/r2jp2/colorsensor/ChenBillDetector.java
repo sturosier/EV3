@@ -41,7 +41,7 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 			// small number
 			// Anything in between most likely indicate presence of a bill
 
-			if (sample < threshold || sample > 0.92) {
+			if (sample < threshold*1.3 || sample > 0.92) {
 				backgroundSampleCount++;
 			} else {
 				billSampleCount++;
@@ -83,6 +83,7 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 		//count the occurrence of unique samples
 		for(Float[] sample : billSamples){
 			Float key = normalizeSample(sample);
+			System.out.println("bill sample:" + key);
 			if(countMap.containsKey(key))
 				countMap.put(key, countMap.get(key) + 1);
 			else
