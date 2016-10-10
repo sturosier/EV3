@@ -12,4 +12,6 @@ public interface IDetector {
 	void newSample(Float[] sample);
 
 	BillDetected recognizeBill();
+	
+	void reset();
 }

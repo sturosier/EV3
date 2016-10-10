@@ -6,16 +6,12 @@ import java.util.List;
 public class BaseDetector implements IDetector {
 
 	protected boolean isBillDetected = false;
-	protected BillDetected billDetected = BillDetected.UNKNOWN;
+	//protected BillDetected billDetected = BillDetected.UNKNOWN;
 	protected double threshold;
 	protected double candidateThreshold;
 	private final int MAX_SAMPLE_SIZE = 100;
-	protected List<Float[]> latestSamples = new ArrayList<Float[]>(); // Oldest
-																		// sample
-																		// at
-																		// beginning
-																		// of
-																		// list
+	protected List<Float[]> latestSamples = new ArrayList<Float[]>(); // Oldest sample at beginning of list
+	protected List<Float[]> billSamples = new ArrayList<Float[]>(); //Contain samples during the presence of a bill under the sensor
 
 	@Override
 	public void newSample(Float[] sample) {
@@ -24,6 +20,8 @@ public class BaseDetector implements IDetector {
 
 		latestSamples.add(sample);
 		isBillDetected = detectBill();
+		if(isBillDetected)
+			billSamples.add(sample);
 	}
 
 	// need to be overwritten
@@ -45,6 +43,13 @@ public class BaseDetector implements IDetector {
 	@Override
 	public void setThreshold() {
 		this.threshold = this.candidateThreshold;
+	}
+	
+	@Override
+	public void reset(){
+		latestSamples.clear();
+		billSamples.clear();
+		isBillDetected = false;
 	}
 
 }

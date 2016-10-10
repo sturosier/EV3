@@ -6,6 +6,7 @@ import lejos.hardware.Key;
 import lejos.hardware.port.Port;
 import lejos.utility.Delay;
 
+import com.r2jp2.colorsensor.IDetector.BillDetected;
 import com.r2jp2.motor.BillDetectorVoice;
 import com.r2jp2.motor.MotorController;
 
@@ -85,8 +86,10 @@ public class MainController {
 			// Wait for Bill to Disappear
 			waitForBillDetectorState(false);
 			System.out.println("done detecting bill.");
+			System.out.println("Detected bill:" + billDetector.recognizeBill().toString()); 
 			// TODO: Potentially spit bill back out?
 			motorController.resetMotors();
+			billDetector.reset();
 			Delay.msDelay(4000);
 		}
 		motorController.destroy();
