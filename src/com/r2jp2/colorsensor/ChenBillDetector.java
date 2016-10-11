@@ -57,7 +57,7 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 			return true;
 		else
 			return false;
-
+		
 	}
 
 	// sample should only have one value so just returning that, this may change
@@ -76,67 +76,39 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 	
 	@Override
 	public BillDetected recognizeBill() {
-		Map<Float, Integer> countMap = new HashMap<Float, Integer>();
-		List<Wrapper> sortedList = new ArrayList<Wrapper>();
+		List<Float> diffs = new ArrayList<Float>();
 		int total = 0;
 		
-		//count the occurrence of unique samples
+		Float prev = Float.NaN;
+		//calculate the diffs
 		for(Float[] sample : billSamples){
-			Float key = normalizeSample(sample);
-			System.out.println("bill sample:" + key);
-			if(countMap.containsKey(key))
-				countMap.put(key, countMap.get(key) + 1);
-			else
-				countMap.put(key, 0);
+			Float current = normalizeSample(sample);
+			System.out.println("bill sample:" + current);
+			
+			if(!prev.isNaN()){
+				diffs.add(Math.abs(current - prev));
+			}
+			
+			prev = current;
 			total++;
 		}
 		
-		for(Float key : countMap.keySet()){
-			sortedList.add(new Wrapper(key, countMap.get(key)));
+		Float avgDiff = 0f;
+		Float totalSample = 0f;
+		for(Float d : diffs){
+			totalSample += d;
 		}
 		
-		//sort it to find samples that happen most frequently
-		Collections.sort(sortedList, new Comparator<Wrapper>() {
-
-			@Override
-			public int compare(Wrapper o1, Wrapper o2) {
-				return Integer.compare(o2.count, o1.count);
-			}
-			
-		});
+		avgDiff = totalSample/diffs.size();
+		System.out.println("avgDiff:" + avgDiff);
+		if(avgDiff > 0.063f)
+			return BillDetected.TEN;
+		else
+			return BillDetected.ONE;
 		
-		System.out.println("total samples:" + total);
-		System.out.println("unique samples:" + countMap.size());
-		
-		//compare the top 3 most frequent samples with our hardcoded spikes, if there is a match, we found our bill
-		int count = 0;
-		while(count < sortedList.size() && count < 3){
-			for(int i = 0; i < tenBillSpikes.length; i++){
-				if(compareSample(tenBillSpikes[i], sortedList.get(count).key))
-					return BillDetected.TEN;
-			}
-			
-			for(int i = 0; i < oneBillSpikes.length; i++){
-				if(compareSample(oneBillSpikes[i], sortedList.get(count).key))
-					return BillDetected.ONE;
-			}
-			
-			count++;
-		}
-		
-		return BillDetected.UNKNOWN;
+		//return BillDetected.UNKNOWN;
 	}
 
-	private static class Wrapper{
-		
-		public Wrapper(Float key, int count){
-			this.key = key;
-			this.count = count;
-		}
-		
-		public Float key;
-		public int count;
-	}
 
 	/*
 	 * if(latestSamples.size() < MOVING_AVG_SIZE) return false; else{
