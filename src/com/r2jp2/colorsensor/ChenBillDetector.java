@@ -101,10 +101,22 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 		
 		avgDiff = totalSample/diffs.size();
 		System.out.println("avgDiff:" + avgDiff);
-		if(avgDiff > 0.063f)
-			return BillDetected.TEN;
-		else
-			return BillDetected.ONE;
+		
+		if(avgDiff > 0.072){
+			//FACE UP SIDE
+			if(avgDiff > 0.082f)
+				return BillDetected.TEN;
+			else
+				return BillDetected.ONE;
+		}
+		else{
+			
+			//FACE DOWN SIDE
+			if(avgDiff > 0.063f)
+				return BillDetected.TEN;
+			else
+				return BillDetected.ONE;
+		}
 		
 		//return BillDetected.UNKNOWN;
 	}
