@@ -1,3 +1,9 @@
-Carole's a recent widow. She used to have John, her late husband fold her money. She doesn't mind using debit and credit, but those don't help when you want to buy the grand kids ice cream.
+Carole's a recent widow and she has trouble seeing and identifying the denominations of money she has. She used to have John, her late husband fold her money. But now she's struggling. She doesn't mind using credit or debit cards, but those don't help when you want to buy the grand kids ice cream.
 
-She looked at solutions. She hates asking people to fold her money and she hates using smart phones and their apps. Existing producls like iBill cost too much for solving a simple problem. 
+She hates asking people to fold her money and she hates using smart phones. Existing products like iBill cost too much and they can't read folded bills. It would be good to double check that the folded bills she gets are folded correctly; once for fives, twice for tens, and three times for tweenties.
+
+The r2jp2's bill denominator uses a data-driven approach to identify money. It uses a light sensor to read a bill's "fingerprint". This finger print is compared against several sets of data. Multiple data sets for each bills denomination. For managing folded bills, more data sets can be added. When the bill is identified, the denomination is announced and the bill is returned. 
+
+This project was chosen based from several proposed based on ranking the different ideas that we all came up with along the same metrics used for the contest. It's a bit of a coincedence that this month is also employment disablity awareness month.
+
+The code was written in Java and it executes within the EV3 using the LeJos implementation of the JRE. This was really helpfull since we could more easily share and manage the code we wrote.
