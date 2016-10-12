@@ -40,6 +40,8 @@ public class TrainingMode {
 			Delay.msDelay(100);
 		}
 		
+		//Lower arm for remainder of training because arm need to be consistent with actual run
+		motorController.lowerArm();
 		Delay.msDelay(2000);
 		
 		
@@ -82,7 +84,6 @@ public class TrainingMode {
 		// *************************************  un-comment if you want to train $1, $10 bill samples
 		/*
 		//Only need to lower arm once, BillTrainer() won't raise it
-		motorController.lowerArm();
 		BillTrainer("$1");
 		billDetector.copyBillSamplesToOneSamples();
 		billDetector.reset();
@@ -92,10 +93,10 @@ public class TrainingMode {
 		billDetector.copyBillSamplesToTenSamples();
 		billDetector.reset();
 		Delay.msDelay(2000);
+		*/
 		
-		//Raise arm
-		motorController.resetMotors();*/
 		
+		motorController.resetMotors();
 		System.out.println("Training done!!");
 	}
 	

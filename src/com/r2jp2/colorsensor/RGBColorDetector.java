@@ -73,6 +73,7 @@ public class RGBColorDetector extends BaseDetector implements IDetector {
 	    return Math.sqrt(weightR*r*r + weightG*g*g + weightB*b*b);
 	} 
 	
+	/*
 	private Double calculateAvgColorDistanceBetweenEverySampleAndReferenceColor(Float[] reference){
 		//List<Double> distanceList = new ArrayList<Double>();
 		Color refColor = new Color(reference[0], reference[1], reference[2]);
@@ -94,6 +95,22 @@ public class RGBColorDetector extends BaseDetector implements IDetector {
 		}
 		
 		return totalDistance/count;
+		
+	}*/
+	
+	private Double calculateAvgColorDistanceBetweenEverySampleAndReferenceColor(Float[] reference){
+		//List<Double> distanceList = new ArrayList<Double>();
+		Color refColor = new Color(reference[0], reference[1], reference[2]);
+		
+		Double totalDistance = 0.0;
+		
+		int middleIndex = Math.round(billSamples.size()/2f);
+		totalDistance += getColorDistance(refColor, new Color(billSamples.get(middleIndex - 1)[0], billSamples.get(middleIndex - 1)[1], billSamples.get(middleIndex - 1)[2]));
+		totalDistance += getColorDistance(refColor, new Color(billSamples.get(middleIndex)[0], billSamples.get(middleIndex)[1], billSamples.get(middleIndex)[2]));
+		totalDistance += getColorDistance(refColor, new Color(billSamples.get(middleIndex + 1)[0], billSamples.get(middleIndex + 1)[1], billSamples.get(middleIndex + 1)[2]));
+		
+		
+		return totalDistance/3;
 		
 	}
 	

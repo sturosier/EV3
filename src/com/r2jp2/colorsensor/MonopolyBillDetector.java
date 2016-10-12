@@ -59,9 +59,10 @@ public class MonopolyBillDetector extends BaseDetector implements IDetector {
 	@Override
 	public BillDetected recognizeBill() {
 		
-		int count = 0;
+		//int count = 0;
 		float totalSample = 0;
 
+		/*
 		//calculate the avg value of the samples
 		for(Float[] sample : billSamples){
 
@@ -70,11 +71,19 @@ public class MonopolyBillDetector extends BaseDetector implements IDetector {
 				totalSample += normalized.floatValue();
 				count++;
 			}
-		}
-
-		Float avgValue = 0f;
-		if(count > 0)
-			avgValue = totalSample/count;
+		}*/
+		
+		
+		int middleIndex = Math.round(billSamples.size()/2f);
+		
+		//avg of the middle 3 samples
+		totalSample += Util.normalizeSample(billSamples.get(middleIndex - 1)).floatValue();
+		totalSample += Util.normalizeSample(billSamples.get(middleIndex)).floatValue();
+		totalSample += Util.normalizeSample(billSamples.get(middleIndex + 1)).floatValue();
+		
+		Float avgValue = totalSample/3;
+		//if(count > 0)
+		//	avgValue = totalSample/count;
 		
 
 		Float white = Float.NaN;
