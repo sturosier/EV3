@@ -33,7 +33,7 @@ public class MainController {
 		colorSensorController = new ColorSensorController(colorSensorPort, ColorSensorModeEnum.RedMode);
 		motorController = new MotorController(armMotorPort, rollerMotorPort);
 		billDetector = new ChenBillDetector();
-		trainingMode = new TrainingMode(colorSensorController, enterKey, billDetector);
+		trainingMode = new TrainingMode(colorSensorController, enterKey, billDetector, motorController);
 	}
 
 	private void waitForBillDetectorState(boolean isBillDetected) {

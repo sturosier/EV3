@@ -18,6 +18,9 @@ public class BaseDetector implements IDetector {
 	protected Float[] tenBenchmark;
 	protected Float[] oneBenchmark;
 	
+	protected List<Float[]> oneSamples = new ArrayList<Float[]>();
+	protected List<Float[]> tenSamples = new ArrayList<Float[]>();
+	
 	private final int MAX_SAMPLE_SIZE = 100;
 	protected List<Float[]> latestSamples = new ArrayList<Float[]>(); // Oldest sample at beginning of list
 	protected List<Float[]> billSamples = new ArrayList<Float[]>(); //Contain samples during the presence of a bill under the sensor
@@ -27,7 +30,6 @@ public class BaseDetector implements IDetector {
 		if (latestSamples.size() == MAX_SAMPLE_SIZE)
 			latestSamples.remove(0);
 
-		System.out.println("r:" + sample[0].floatValue() + " g:" + sample[1].floatValue() + " b:" + sample[2].floatValue());
 		latestSamples.add(sample);
 		isBillDetected = detectBill();
 		if(isBillDetected)
@@ -83,6 +85,16 @@ public class BaseDetector implements IDetector {
 	@Override
 	public void setOneBenchmark(Float[] one) {
 		this.oneBenchmark = one;
+	}
+	
+	@Override
+	public void copyBillSamplesToOneSamples() {
+		this.oneSamples = new ArrayList<Float[]>(this.billSamples);
+	}
+	
+	@Override
+	public void copyBillSamplesToTenSamples() {
+		this.tenSamples = new ArrayList<Float[]>(this.billSamples);
 	}
 	
 	@Override

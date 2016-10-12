@@ -1,5 +1,7 @@
 package com.r2jp2.colorsensor;
 
+import com.r2jp2.motor.MotorController;
+
 import lejos.hardware.Key;
 import lejos.utility.Delay;
 
@@ -8,10 +10,12 @@ public class TrainingMode {
 	private ColorSensorController colorSensorController;
 	private Key enterKey;
 	private IDetector billDetector;
-	public TrainingMode(ColorSensorController colorSensorController, Key enterKey, IDetector billDetector){
+	private MotorController motorController;
+	public TrainingMode(ColorSensorController colorSensorController, Key enterKey, IDetector billDetector, MotorController motorController){
 		this.colorSensorController = colorSensorController;
 		this.enterKey = enterKey;
 		this.billDetector = billDetector;
+		this.motorController = motorController;
 	}
 	
 	public void calibrate(){
@@ -75,10 +79,49 @@ public class TrainingMode {
 		billDetector.setGreen(sample);
 		Delay.msDelay(2000);*/
 		
+		// *************************************  un-comment if you want to train $1, $10 bill samples
+		/*
+		//Only need to lower arm once, BillTrainer() won't raise it
+		motorController.lowerArm();
+		BillTrainer("$1");
+		billDetector.copyBillSamplesToOneSamples();
+		billDetector.reset();
+		Delay.msDelay(2000);
+		
+		BillTrainer("$10");
+		billDetector.copyBillSamplesToTenSamples();
+		billDetector.reset();
+		Delay.msDelay(2000);
+		
+		//Raise arm
+		motorController.resetMotors();*/
 		
 		System.out.println("Training done!!");
 	}
 	
+	private void waitForBillDetectorState(boolean isBillDetected) {
+
+		while (billDetector.isBillDetected() != isBillDetected) {
+			Float[] sample = colorSensorController.sample();
+			billDetector.newSample(sample);
+
+			Delay.msDelay(100);
+		}
+	}
+	
+	private void BillTrainer(String type){
+		
+		System.out.println("Put " + type +  " under sensor");
+		// Wait for Bill Insertion
+		waitForBillDetectorState(true);
+		Delay.msDelay(250);
+		System.out.println("detected bill:");
+		motorController.startSpinning();
+		Delay.msDelay(1000);
+		waitForBillDetectorState(false);
+		System.out.println("done detecting bill.");
+		motorController.stopRoller();
+	}
 	
 	private Float[] Trainer(String type){
 		System.out.println("Put " + type +  " under sensor");

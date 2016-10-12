@@ -21,4 +21,7 @@ public interface IDetector {
 	void setGreen(Float[] green);
 	void setTenBenchmark(Float[] ten);
 	void setOneBenchmark(Float[] one);
+	
+	void copyBillSamplesToOneSamples();
+	void copyBillSamplesToTenSamples();
 }
