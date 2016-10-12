@@ -17,6 +17,8 @@ public class BillDetectorVoice {
 	
 	private Map<Integer, String> colorToSound = new HashMap<Integer, String>();
 	
+	private Map<Integer, Integer> colorToBeep = new HashMap<Integer, Integer>();
+	
 	 public BillDetectorVoice(){
 	   
 	   init();
@@ -29,7 +31,11 @@ public class BillDetectorVoice {
 		 colorToSound.put(Color.PINK, FIVE_DOLLAR_FILE);
 		 colorToSound.put(Color.YELLOW, TEN_DOLLAR_FILE);
 		 colorToSound.put(Color.GREEN, TWENTY_DOLLAR_FILE);
-
+		 
+		 colorToBeep.put(Color.WHITE, 1 ); //one dollar
+		 colorToBeep.put(Color.PINK, 2); //five dollar
+		 colorToBeep.put(Color.YELLOW, 3); //ten dollar
+		 colorToBeep.put(Color.GREEN, 4); //twenty dollar
 	 }
 	 
 	 public void sortBill(int color)
@@ -43,6 +49,24 @@ public class BillDetectorVoice {
 		}
 		
 		play(fileName);
+	 }
+	 
+	 public boolean playBeep(int color) throws InterruptedException
+	 {
+		 if(colorToBeep.get(color) == null)
+		 {
+			 return false;
+		 }
+		 
+		 int numberOfBeeps = colorToBeep.get(color);
+		 
+		 for( int i = 0; i< numberOfBeeps; i++)
+		 {
+			 Sound.beep();
+			 Thread.sleep(1000);
+		 }
+		 
+		 return true;
 	 }
 	 
 	 private void play(String voiceFile)
