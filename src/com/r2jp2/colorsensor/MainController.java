@@ -7,6 +7,7 @@ import lejos.hardware.port.Port;
 import lejos.robotics.Color;
 import lejos.utility.Delay;
 
+import com.r2jp2.colorsensor.ColorSensorController.ColorSensorModeEnum;
 import com.r2jp2.motor.BillDetectorVoice;
 import com.r2jp2.motor.MotorController;
 import com.r2jp2.motor.VoicePlayer;
@@ -29,7 +30,7 @@ public class MainController {
 		Port armMotorPort = brick.getPort("A");
 		Port rollerMotorPort = brick.getPort("B");
 
-		colorSensorController = new ColorSensorController(colorSensorPort);
+		colorSensorController = new ColorSensorController(colorSensorPort, ColorSensorModeEnum.RedMode);
 		motorController = new MotorController(armMotorPort, rollerMotorPort);
 		billDetector = new ChenBillDetector();
 		trainingMode = new TrainingMode(colorSensorController, enterKey, billDetector);

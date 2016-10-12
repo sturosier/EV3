@@ -44,6 +44,19 @@ public class TrainingMode {
 		billDetector.setThreshold(sample);
 		Delay.msDelay(2000);
 		
+		
+		// *************************************  un-comment if you want to try $10, $1 bill
+		/*
+		sample = Trainer("$10");
+		billDetector.setTenBenchmark(sample);
+		Delay.msDelay(2000);
+		
+		sample = Trainer("$1");
+		billDetector.setOneBenchmark(sample);
+		Delay.msDelay(2000);
+		*/
+		
+		
 		// *************************************  un-comment if you want to try monopoly money
 		/*
 		sample = Trainer("white monopoly");

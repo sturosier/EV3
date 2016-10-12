@@ -8,12 +8,16 @@ import lejos.robotics.filter.AbstractFilter;
 
 public class ColorSensorController {
 
+	public enum ColorSensorModeEnum{
+		RedMode,
+		RGBMode
+	}
 	private EV3ColorSensor sensor;
 	private SampleProvider reflectedLight;
 	private int sampleSize;
 	Port port;
 
-	public ColorSensorController(Port p) {
+	public ColorSensorController(Port p, ColorSensorModeEnum mode) {
 		this.sensor = new EV3ColorSensor(p);
 		this.port = p;
 		/*
@@ -25,14 +29,18 @@ public class ColorSensorController {
 		 * Alternatives to the method below are: sensor.getMode(1) or
 		 * sensor.getRedMode()
 		 */
-		SampleProvider redMode = sensor.getRGBMode();
+		SampleProvider provider = null;
+		if(mode == ColorSensorModeEnum.RedMode)
+			provider = sensor.getRedMode();
+		else if(mode == ColorSensorModeEnum.RGBMode)
+			provider = sensor.getRGBMode();
 
 		/*
 		 * Use a filter on the sample. The filter needs a source (a sensor or
 		 * another filter) for the sample. The source is provided in the
 		 * constructor of the filter
 		 */
-		reflectedLight = new autoAdjustFilter(redMode);
+		reflectedLight = new autoAdjustFilter(provider);
 
 		/*
 		 * Create an array of floats to hold the sample returned by the

@@ -19,4 +19,6 @@ public interface IDetector {
 	void setRed(Float[] red);
 	void setBlue(Float[] blue);
 	void setGreen(Float[] green);
+	void setTenBenchmark(Float[] ten);
+	void setOneBenchmark(Float[] one);
 }

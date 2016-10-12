@@ -15,6 +15,9 @@ public class BaseDetector implements IDetector {
 	protected Float[] blue;
 	protected Float[] green;
 	
+	protected Float[] tenBenchmark;
+	protected Float[] oneBenchmark;
+	
 	private final int MAX_SAMPLE_SIZE = 100;
 	protected List<Float[]> latestSamples = new ArrayList<Float[]>(); // Oldest sample at beginning of list
 	protected List<Float[]> billSamples = new ArrayList<Float[]>(); //Contain samples during the presence of a bill under the sensor
@@ -70,6 +73,16 @@ public class BaseDetector implements IDetector {
 	@Override
 	public void setGreen(Float[] green) {
 		this.green = green;
+	}
+	
+	@Override
+	public void setTenBenchmark(Float[] ten) {
+		this.tenBenchmark = ten;
+	}
+	
+	@Override
+	public void setOneBenchmark(Float[] one) {
+		this.oneBenchmark = one;
 	}
 	
 	@Override
