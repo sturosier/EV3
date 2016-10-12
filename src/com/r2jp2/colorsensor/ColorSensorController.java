@@ -25,7 +25,7 @@ public class ColorSensorController {
 		 * Alternatives to the method below are: sensor.getMode(1) or
 		 * sensor.getRedMode()
 		 */
-		SampleProvider redMode = sensor.getRedMode();
+		SampleProvider redMode = sensor.getRGBMode();
 
 		/*
 		 * Use a filter on the sample. The filter needs a source (a sensor or

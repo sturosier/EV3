@@ -4,11 +4,11 @@ import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.Key;
 import lejos.hardware.port.Port;
+import lejos.robotics.Color;
 import lejos.utility.Delay;
 
-import com.r2jp2.colorsensor.IDetector.BillDetected;
-import com.r2jp2.motor.BillDetectorVoice;
 import com.r2jp2.motor.MotorController;
+import com.r2jp2.motor.VoicePlayer;
 
 public class MainController {
 
@@ -59,16 +59,23 @@ public class MainController {
 		billDetector.setThreshold();
 	}
 
+	private void playSound(int color) {
+
+		VoicePlayer voice = new VoicePlayer(color);
+		Thread t = new Thread(voice);
+		t.start();
+	}
+
 	public void start() {
 
-		BillDetectorVoice voice = new BillDetectorVoice();
+		// /*
+		// * Note: To initialize: 1) Wait for sensor values to stabalize 2) Wait
+		// * until arm comes to rest in the up position *
+		// */
+
 		// Begin Init Process
+		playSound(Color.WHITE);
 		motorController.lowerArm();
-		/* Note:
-		 * To initialize: 
-		 * 1) Wait for sensor values to stabalize
-		 * 2) Wait until arm comes to rest in the up position		 * 
-		 */
 		initThreshold();
 		motorController.raiseArm();
 		// End Init Process
@@ -78,7 +85,7 @@ public class MainController {
 			// Wait for Bill Insertion
 			Delay.msDelay(1000);
 			waitForBillDetectorState(true);
-			Delay.msDelay(750);
+			Delay.msDelay(250);
 			System.out.println("detected bill:");
 			motorController.startSpinning();
 			Delay.msDelay(1000);
@@ -86,11 +93,15 @@ public class MainController {
 			// Wait for Bill to Disappear
 			waitForBillDetectorState(false);
 			System.out.println("done detecting bill.");
-			System.out.println("Detected bill:" + billDetector.recognizeBill().toString()); 
+			System.out.println("Detected bill:"
+					+ billDetector.recognizeBill().toString());
+
 			// TODO: Potentially spit bill back out?
+			motorController.startSpinningBackward();
+			Delay.msDelay(4000);
 			motorController.resetMotors();
 			billDetector.reset();
-			Delay.msDelay(4000);
+			Delay.msDelay(3000);
 		}
 		motorController.destroy();
 		colorSensorController.destroy();

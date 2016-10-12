@@ -24,6 +24,7 @@ public class BillDetectorVoice {
 	 
 	 private void init()
 	 {
+		 
 		 colorToSound.put(Color.WHITE, ONE_DOLLAR_FILE);
 		 colorToSound.put(Color.PINK, FIVE_DOLLAR_FILE);
 		 colorToSound.put(Color.YELLOW, TEN_DOLLAR_FILE);
@@ -50,7 +51,7 @@ public class BillDetectorVoice {
 		 //ttsreader.com (voice recorder)
 		 File myFile = new File(voiceFile);
 		 //Sound.setVolume(100);
-
+		
 	     System.out.println("About to play for: " + Sound.playSample(myFile,100)); 
 	 }
 }

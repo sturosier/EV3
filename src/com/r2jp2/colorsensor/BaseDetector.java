@@ -18,6 +18,7 @@ public class BaseDetector implements IDetector {
 		if (latestSamples.size() == MAX_SAMPLE_SIZE)
 			latestSamples.remove(0);
 
+		System.out.println("r:" + sample[0].floatValue() + " g:" + sample[1].floatValue() + " b:" + sample[2].floatValue());
 		latestSamples.add(sample);
 		isBillDetected = detectBill();
 		if(isBillDetected)

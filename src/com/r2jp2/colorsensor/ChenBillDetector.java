@@ -48,7 +48,7 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 				candidateThreshold = sample;
 			}
 
-			System.out.println(sample);
+			//System.out.println(sample);
 
 			count++;
 		}
@@ -63,7 +63,17 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 	// sample should only have one value so just returning that, this may change
 	// if we change sensor type
 	private float normalizeSample(Float[] sample) {
-		return sample[0].isNaN() ? -1 : sample[0].floatValue();
+		//return sample[0].isNaN() ? -1 : sample[0].floatValue();
+		float total = 0;
+		int count = 0;
+		for(int i = 0; i < sample.length; i++){
+			if(!sample[i].isNaN()){
+				total += sample[i].floatValue();
+				count++;
+			}
+		}
+		
+		return total/count;
 	}
 
 	private boolean compareSample(Float s1, Float s2){
@@ -82,8 +92,9 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 		Float prev = Float.NaN;
 		//calculate the diffs
 		for(Float[] sample : billSamples){
+			System.out.println("bill sample-r:" + sample[0].floatValue() + " g:" + sample[1].floatValue() + " b:" + sample[2].floatValue());
 			Float current = normalizeSample(sample);
-			System.out.println("bill sample:" + current);
+			//System.out.println("bill sample:" + current);
 			
 			if(!prev.isNaN()){
 				diffs.add(Math.abs(current - prev));
