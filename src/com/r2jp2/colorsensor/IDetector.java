@@ -2,7 +2,7 @@ package com.r2jp2.colorsensor;
 
 public interface IDetector {
 	public enum BillDetected {
-		UNKNOWN, ONE, FIVE, TEN, TWENTY
+		UNKNOWN, ONE, FIVE, TEN, TWENTY, MONOPOLY_WHITE, MONOPOLY_RED, MONOPOLY_BLUE, MONOPOLY_GREEN
 	}
 
 	boolean isBillDetected();

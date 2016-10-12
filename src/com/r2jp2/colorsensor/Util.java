@@ -2,7 +2,7 @@ package com.r2jp2.colorsensor;
 
 public class Util {
 
-	public static float normalizeSample(Float[] sample) {
+	public static Float normalizeSample(Float[] sample) {
 		//return sample[0].isNaN() ? -1 : sample[0].floatValue();
 		
 		Float total = 0f;
@@ -13,6 +13,9 @@ public class Util {
 				count++;
 			}
 		}
+		
+		if(count == 0)
+			return Float.NaN;
 		
 		return total/count;
 	}
