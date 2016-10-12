@@ -16,8 +16,8 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 
 	}
 
-	float[] tenBillSpikes = new float[]{0.18518516f, 0.27659574f, 0.5185185f};
-	float[] oneBillSpikes = new float[]{0.37837836f,  0.2972973f, 0.13513513f};
+	//float[] tenBillSpikes = new float[]{0.18518516f, 0.27659574f, 0.5185185f};
+	//float[] oneBillSpikes = new float[]{0.37837836f,  0.2972973f, 0.13513513f};
 	
 	@Override
 	protected boolean detectBill() {
@@ -34,18 +34,17 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 
 		// read the LATEST number of samples (at the end of latestSamples list)
 		while (count <= SAMPLE_SIZE) {
-			float sample = normalizeSample(latestSamples.get(latestSamples
+			float sample = Util.normalizeSample(latestSamples.get(latestSamples
 					.size() - count));
 
 			// Our background is dark gray so sample is either a big number or a
 			// small number
 			// Anything in between most likely indicate presence of a bill
 
-			if (sample < threshold*1.3 || sample > 0.92) {
+			if (sample < Util.normalizeSample(this.threshold)*1.3 || sample > 0.92) {
 				backgroundSampleCount++;
 			} else {
 				billSampleCount++;
-				candidateThreshold = sample;
 			}
 
 			System.out.println(sample);
@@ -58,12 +57,6 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 		else
 			return false;
 		
-	}
-
-	// sample should only have one value so just returning that, this may change
-	// if we change sensor type
-	private float normalizeSample(Float[] sample) {
-		return sample[0].isNaN() ? -1 : sample[0].floatValue();
 	}
 
 	private boolean compareSample(Float s1, Float s2){
@@ -82,7 +75,7 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 		Float prev = Float.NaN;
 		//calculate the diffs
 		for(Float[] sample : billSamples){
-			Float current = normalizeSample(sample);
+			Float current = Util.normalizeSample(sample);
 			System.out.println("bill sample:" + current);
 			
 			if(!prev.isNaN()){

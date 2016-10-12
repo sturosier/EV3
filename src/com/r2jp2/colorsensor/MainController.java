@@ -17,8 +17,7 @@ public class MainController {
 	private Key enterKey;
 	private MotorController motorController;
 	private ColorSensorController colorSensorController;
-	private ChenBillDetector newBillDetector;
-	// private ProgramStatus status = ProgramStatus.Pause;
+	private TrainingMode trainingMode;
 	private IDetector billDetector;
 
 	public MainController() {
@@ -32,22 +31,20 @@ public class MainController {
 		colorSensorController = new ColorSensorController(colorSensorPort);
 		motorController = new MotorController(armMotorPort, rollerMotorPort);
 		billDetector = new ChenBillDetector();
+		trainingMode = new TrainingMode(colorSensorController, enterKey, billDetector);
 	}
 
 	private void waitForBillDetectorState(boolean isBillDetected) {
 
 		while (billDetector.isBillDetected() != isBillDetected) {
 			Float[] sample = colorSensorController.sample();
-			/*
-			 * for (Float f : sample) {
-			 * System.out.println(f.doubleValue()+", "); }
-			 */
 			billDetector.newSample(sample);
 
 			Delay.msDelay(100);
 		}
 	}
 
+	/*
 	private void initThreshold() {
 
 		while (enterKey.isUp()) {
@@ -57,20 +54,26 @@ public class MainController {
 			Delay.msDelay(100);
 		}
 		billDetector.setThreshold();
-	}
+	}*/
 
 	public void start() {
 
 		BillDetectorVoice voice = new BillDetectorVoice();
+		
+		trainingMode.calibrate();
+		
+		//******** CALIBRATION DONE IN TRAINING MODE *****************
 		// Begin Init Process
-		motorController.lowerArm();
+		//motorController.lowerArm();
 		/* Note:
 		 * To initialize: 
 		 * 1) Wait for sensor values to stabalize
-		 * 2) Wait until arm comes to rest in the up position		 * 
+		 * 2) Wait until arm comes to rest in the up position		 
 		 */
-		initThreshold();
-		motorController.raiseArm();
+		//initThreshold();
+		//motorController.raiseArm();
+		
+		
 		// End Init Process
 		while (escapeKey.isUp()) {
 			Delay.msDelay(1000);

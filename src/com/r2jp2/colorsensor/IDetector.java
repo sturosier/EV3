@@ -7,11 +7,16 @@ public interface IDetector {
 
 	boolean isBillDetected();
 
-	void setThreshold();
+	void setThreshold(Float[] threshold);
 
 	void newSample(Float[] sample);
 
 	BillDetected recognizeBill();
 	
 	void reset();
+	
+	void setWhite(Float[] white);
+	void setRed(Float[] red);
+	void setBlue(Float[] blue);
+	void setGreen(Float[] green);
 }
