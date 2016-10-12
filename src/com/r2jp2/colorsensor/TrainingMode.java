@@ -44,7 +44,7 @@ public class TrainingMode {
 		billDetector.setThreshold(sample);
 		Delay.msDelay(2000);
 		
-		// un-comment if you want to try monopoly money
+		// *************************************  un-comment if you want to try monopoly money
 		/*
 		sample = Trainer("white monopoly");
 		billDetector.setWhite(sample);

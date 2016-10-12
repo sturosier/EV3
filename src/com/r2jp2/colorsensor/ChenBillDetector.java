@@ -47,7 +47,7 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 				billSampleCount++;
 			}
 
-			System.out.println(sample);
+			//System.out.println(sample);
 
 			count++;
 		}
@@ -75,6 +75,7 @@ public class ChenBillDetector extends BaseDetector implements IDetector {
 		Float prev = Float.NaN;
 		//calculate the diffs
 		for(Float[] sample : billSamples){
+
 			Float current = Util.normalizeSample(sample);
 			System.out.println("bill sample:" + current);
 			
