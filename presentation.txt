@@ -1,9 +1,25 @@
-Carole's a recent widow and she has trouble seeing and identifying the denominations of money she has. She used to have John, her late husband fold her money. But now she's struggling. She doesn't mind using credit or debit cards, but those don't help when you want to buy the grand kids ice cream.
+Hello and thanks for hosting this competition. We enjoyed working with the robots and learned a lot.
 
-She hates asking people to fold her money and she hates using smart phones. Existing products like iBill cost too much and they can't read folded bills. It would be good to double check that the folded bills she gets are folded correctly; once for fives, twice for tens, and three times for tweenties.
+To demonstrate the problem our robot solves, let me share Carole's story.
 
-The r2jp2's bill denominator uses a data-driven approach to identify money. It uses a light sensor to read a bill's "fingerprint". This finger print is compared against several sets of data. Multiple data sets for each bills denomination. For managing folded bills, more data sets can be added. When the bill is identified, the denomination is announced and the bill is returned. 
+Carole's a recent widow and she has trouble seeing and identifying the denominations of money she has. She used to have John, her late husband fold her money.
+But now she's struggling. She doesn't mind using credit or debit cards, but those don't help when you want to buy the grand kids ice cream at the park.
 
-This project was chosen based from several proposed based on ranking the different ideas that we all came up with along the same metrics used for the contest. It's a bit of a coincedence that this month is also employment disablity awareness month.
+She hates asking people to fold her money and she hates using smart phones. Existing products like iBill cost too much and they can't read folded bills.
+It would be good to double check that the folded bills she gets are folded correctly; once for fives, twice for tens, and three times for twenties.
 
-The code was written in Java and it executes within the EV3 using the LeJos implementation of the JRE. This was really helpfull since we could more easily share and manage the code we wrote.
+The r2jp2's Bill Denominator uses a data-driven approach to identify money. It uses a light sensor to read a bill's "fingerprint". This fingerprint is compared against several sets of reference data. Whether a bill is right side up or flipped left to right should not matter as multiple data sets can be used for a single denomination. For managing folded bills, more data sets can be added. When the bill is identified, the denomination is announced and the bill is returned. 
+
+Allow me to demonstrate.
+
+
+The design of the robot uses two motors. One to move the bill and one to release the bill from the scanner.
+
+Please feel free to give it a try!
+
+The programming of this prototype features a training session where the robot generates the reference data based on scanning real bills. This training mode can be extended to account for multiple currencies.
+
+This project was chosen by generating several ideas in a green light session and then scoring each idea based on the same metrics used for this competition: creativity, originality, business related problem solved.
+The Bill Denominator design scored the highest. It's a happy coincidence that this month is also employment disability awareness month.
+
+The code was written in Java and it executes within the EV3 using the LeJos implementation of the JRE. Using LeJos was really helpful since we could more easily share and manage the code we wrote on github.
