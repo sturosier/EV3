@@ -35,7 +35,7 @@ public class BillDetector extends BaseDetector implements IDetector {
 				return false;
 			
 			sampleAvg /= total;
-			System.out.println("avg: " + sampleAvg);
+			//System.out.println("avg: " + sampleAvg);
 			return sampleAvg > 0.30;
 		} else
 			return false;

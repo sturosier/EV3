@@ -14,6 +14,18 @@ import com.r2jp2.motor.VoicePlayer;
 
 public class MainController {
 
+	public static final String ONE_DOLLAR_FILE = "one.wav";
+	public static final String FIVE_DOLLAR_FILE = "five.wav";
+	public static final String TEN_DOLLAR_FILE = "ten.wav";
+	public static final String TWENTY_DOLLAR_FILE = "twenty.wav";
+
+	private final int ONE = Color.WHITE;
+	private final int FIVE = Color.PINK;
+	private final int TEN = Color.YELLOW;
+	private final int TWENTY = Color.GREEN;
+	private final int DETECTED = 100;
+	private final int RETURNED = 101;
+
 	private Brick brick;
 	private Key escapeKey;
 	private Key enterKey;
@@ -30,10 +42,19 @@ public class MainController {
 		Port armMotorPort = brick.getPort("A");
 		Port rollerMotorPort = brick.getPort("B");
 
-		colorSensorController = new ColorSensorController(colorSensorPort, ColorSensorModeEnum.RedMode);
+		// billDetector = new MonopolyBillDetector();
+		// colorSensorController = new ColorSensorController(colorSensorPort,
+		// ColorSensorModeEnum.RedMode);
+
+		billDetector = new RGBColorDetector();
+		colorSensorController = new ColorSensorController(colorSensorPort,
+				ColorSensorModeEnum.RGBMode);
+
 		motorController = new MotorController(armMotorPort, rollerMotorPort);
-		billDetector = new ChenBillDetector();
-		trainingMode = new TrainingMode(colorSensorController, enterKey, billDetector, motorController);
+		// billDetector = new ChenBillDetector();
+		trainingMode = new TrainingMode(colorSensorController, enterKey,
+				billDetector, motorController);
+
 	}
 
 	private void waitForBillDetectorState(boolean isBillDetected) {
@@ -47,42 +68,30 @@ public class MainController {
 	}
 
 	/*
-	private void initThreshold() {
-
-		while (enterKey.isUp()) {
-			Float[] sample = colorSensorController.sample();
-			billDetector.newSample(sample);
-			// wait
-			Delay.msDelay(100);
-		}
-		billDetector.setThreshold();
-	}*/
+	 * private void initThreshold() {
+	 * 
+	 * while (enterKey.isUp()) { Float[] sample =
+	 * colorSensorController.sample(); billDetector.newSample(sample); // wait
+	 * Delay.msDelay(100); } billDetector.setThreshold(); }
+	 */
 
 	private void playSound(int color) {
 
 		VoicePlayer voice = new VoicePlayer(color);
 		Thread t = new Thread(voice);
 		t.start();
+
 	}
 
 	public void start() {
-
 		BillDetectorVoice voice = new BillDetectorVoice();
-		
-		trainingMode.calibrate();
-		
-		//******** CALIBRATION DONE IN TRAINING MODE *****************
-		// Begin Init Process
-		//motorController.lowerArm();
-		/* Note:
-		 * To initialize: 
-		 * 1) Wait for sensor values to stabalize
-		 * 2) Wait until arm comes to rest in the up position		 
-		 */
-		//initThreshold();
-		//motorController.raiseArm();
 
-		playSound(Color.WHITE);
+		motorController.lowerArm();
+		trainingMode.calibrate();
+
+		// ******** CALIBRATION DONE IN TRAINING MODE *****************
+
+		motorController.raiseArm();
 
 		// End Init Process
 		while (escapeKey.isUp()) {
@@ -92,6 +101,7 @@ public class MainController {
 			Delay.msDelay(1000);
 			waitForBillDetectorState(true);
 			Delay.msDelay(250);
+			// playSound(DETECTED);
 			System.out.println("detected bill:");
 			motorController.startSpinning();
 			Delay.msDelay(1000);
@@ -101,13 +111,32 @@ public class MainController {
 			System.out.println("done detecting bill.");
 			System.out.println("Detected bill:"
 					+ billDetector.recognizeBill().toString());
+			motorController.stopRoller();
+			Delay.msDelay(1000);
+			try {
 
-			// TODO: Potentially spit bill back out?
+				if (billDetector.recognizeBill().toString().contains("WHITE")) {
+					voice.playBeep(ONE);
+				} else if (billDetector.recognizeBill().toString()
+						.contains("RED")) {
+					voice.playBeep(FIVE);
+				} else if (billDetector.recognizeBill().toString()
+						.contains("BLUE")) {
+					voice.playBeep(TEN);
+				} else if (billDetector.recognizeBill().toString()
+						.contains("GREEN")) {
+					voice.playBeep(TWENTY);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			motorController.startSpinningBackward();
-			Delay.msDelay(4000);
+			Delay.msDelay(3000);
 			motorController.resetMotors();
 			billDetector.reset();
-			Delay.msDelay(3000);
+			// playSound(RETURNED);
+			Delay.msDelay(2000);
 		}
 		motorController.destroy();
 		colorSensorController.destroy();

@@ -10,17 +10,22 @@ public class TrainingMode {
 	private ColorSensorController colorSensorController;
 	private Key enterKey;
 	private IDetector billDetector;
+
 	private MotorController motorController;
-	public TrainingMode(ColorSensorController colorSensorController, Key enterKey, IDetector billDetector, MotorController motorController){
+
+	public TrainingMode(ColorSensorController colorSensorController,
+			Key enterKey, IDetector billDetector,
+			MotorController motorController) {
+
 		this.colorSensorController = colorSensorController;
 		this.enterKey = enterKey;
 		this.billDetector = billDetector;
 		this.motorController = motorController;
 	}
-	
-	public void calibrate(){
-		
-		//Put anything COMPLETELY BLACK under the sensor
+
+	public void calibrate() {
+
+		// Put anything COMPLETELY BLACK under the sensor
 		System.out.println("Put black under sensor");
 		while (enterKey.isUp()) {
 			Float[] sample = colorSensorController.sample();
@@ -28,10 +33,10 @@ public class TrainingMode {
 			// wait
 			Delay.msDelay(100);
 		}
-		
+
 		Delay.msDelay(2000);
-		
-		//Put anything COMPLETELY WHITE under the sensor
+
+		// Put anything COMPLETELY WHITE under the sensor
 		System.out.println("Put white under sensor");
 		while (enterKey.isUp()) {
 			Float[] sample = colorSensorController.sample();
@@ -39,67 +44,58 @@ public class TrainingMode {
 			// wait
 			Delay.msDelay(100);
 		}
-		
-		//Lower arm for remainder of training because arm need to be consistent with actual run
-		motorController.lowerArm();
+
 		Delay.msDelay(2000);
-		
-		
-		//Setting the threshold just like before
+
+		// Setting the threshold just like before
 		Float[] sample = Trainer("background");
 		billDetector.setThreshold(sample);
 		Delay.msDelay(2000);
-		
-		
-		// *************************************  un-comment if you want to try $10, $1 bill
+
+		// ************************************* un-comment if you want to try
+		// $10, $1 bill
 		/*
-		sample = Trainer("$10");
-		billDetector.setTenBenchmark(sample);
-		Delay.msDelay(2000);
-		
-		sample = Trainer("$1");
-		billDetector.setOneBenchmark(sample);
-		Delay.msDelay(2000);
-		*/
-		
-		
-		// *************************************  un-comment if you want to try monopoly money
-		/*
+		 * sample = Trainer("$10"); billDetector.setTenBenchmark(sample);
+		 * Delay.msDelay(2000);
+		 * 
+		 * sample = Trainer("$1"); billDetector.setOneBenchmark(sample);
+		 * Delay.msDelay(2000);
+		 */
+
+		// ************************************* un-comment if you want to try
+		// monopoly money
 		sample = Trainer("white monopoly");
 		billDetector.setWhite(sample);
 		Delay.msDelay(2000);
-		
+
 		sample = Trainer("red monopoly");
 		billDetector.setRed(sample);
 		Delay.msDelay(2000);
-		
+
 		sample = Trainer("blue monopoly");
 		billDetector.setBlue(sample);
 		Delay.msDelay(2000);
-		
+
 		sample = Trainer("green monopoly");
 		billDetector.setGreen(sample);
-		Delay.msDelay(2000);*/
-		
-		// *************************************  un-comment if you want to train $1, $10 bill samples
+
+		Delay.msDelay(2000);
+
+		// ************************************* un-comment if you want to train
+		// $1, $10 bill samples
 		/*
-		//Only need to lower arm once, BillTrainer() won't raise it
-		BillTrainer("$1");
-		billDetector.copyBillSamplesToOneSamples();
-		billDetector.reset();
-		Delay.msDelay(2000);
-		
-		BillTrainer("$10");
-		billDetector.copyBillSamplesToTenSamples();
-		billDetector.reset();
-		Delay.msDelay(2000);
-		*/
-		
-		
+		 * //Only need to lower arm once, BillTrainer() won't raise it
+		 * BillTrainer("$1"); billDetector.copyBillSamplesToOneSamples();
+		 * billDetector.reset(); Delay.msDelay(2000);
+		 * 
+		 * BillTrainer("$10"); billDetector.copyBillSamplesToTenSamples();
+		 * billDetector.reset(); Delay.msDelay(2000);
+		 */
+
 		motorController.resetMotors();
 		System.out.println("Training done!!");
 	}
-	
+
 	private void waitForBillDetectorState(boolean isBillDetected) {
 
 		while (billDetector.isBillDetected() != isBillDetected) {
@@ -109,10 +105,10 @@ public class TrainingMode {
 			Delay.msDelay(100);
 		}
 	}
-	
-	private void BillTrainer(String type){
-		
-		System.out.println("Put " + type +  " under sensor");
+
+	private void BillTrainer(String type) {
+
+		System.out.println("Put " + type + " under sensor");
 		// Wait for Bill Insertion
 		waitForBillDetectorState(true);
 		Delay.msDelay(250);
@@ -123,17 +119,17 @@ public class TrainingMode {
 		System.out.println("done detecting bill.");
 		motorController.stopRoller();
 	}
-	
-	private Float[] Trainer(String type){
-		System.out.println("Put " + type +  " under sensor");
+
+	private Float[] Trainer(String type) {
+		System.out.println("Put " + type + " under sensor");
 		Float[] sample = null;
 		while (enterKey.isUp()) {
 			sample = colorSensorController.sample();
-			System.out.println(Util.normalizeSample(sample));
+			System.out.println("r:" + sample[0] + " g:" + sample[1] + " b:" + sample[2]);
 			// wait
 			Delay.msDelay(100);
 		}
-		
+
 		return sample;
 	}
 }

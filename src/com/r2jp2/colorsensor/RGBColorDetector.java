@@ -73,7 +73,6 @@ public class RGBColorDetector extends BaseDetector implements IDetector {
 	    return Math.sqrt(weightR*r*r + weightG*g*g + weightB*b*b);
 	} 
 	
-	/*
 	private Double calculateAvgColorDistanceBetweenEverySampleAndReferenceColor(Float[] reference){
 		//List<Double> distanceList = new ArrayList<Double>();
 		Color refColor = new Color(reference[0], reference[1], reference[2]);
@@ -94,10 +93,12 @@ public class RGBColorDetector extends BaseDetector implements IDetector {
 			//distanceList.add(distance);
 		}
 		
+		//System.out.println("avg dist:" + totalDistance/count);
 		return totalDistance/count;
 		
-	}*/
+	}
 	
+	/*
 	private Double calculateAvgColorDistanceBetweenEverySampleAndReferenceColor(Float[] reference){
 		//List<Double> distanceList = new ArrayList<Double>();
 		Color refColor = new Color(reference[0], reference[1], reference[2]);
@@ -109,10 +110,10 @@ public class RGBColorDetector extends BaseDetector implements IDetector {
 		totalDistance += getColorDistance(refColor, new Color(billSamples.get(middleIndex)[0], billSamples.get(middleIndex)[1], billSamples.get(middleIndex)[2]));
 		totalDistance += getColorDistance(refColor, new Color(billSamples.get(middleIndex + 1)[0], billSamples.get(middleIndex + 1)[1], billSamples.get(middleIndex + 1)[2]));
 		
-		
+		System.out.println("avg dist:" + totalDistance/3);
 		return totalDistance/3;
 		
-	}
+	}*/
 	
 	@Override
 	public BillDetected recognizeBill() {

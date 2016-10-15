@@ -1,6 +1,5 @@
 package com.r2jp2.motor;
 
-import lejos.robotics.Color;
 
 public class VoicePlayer implements Runnable {
 

@@ -10,7 +10,8 @@ public class ColorSensorController {
 
 	public enum ColorSensorModeEnum{
 		RedMode,
-		RGBMode
+		RGBMode,
+		ColorID
 	}
 	private EV3ColorSensor sensor;
 	private SampleProvider reflectedLight;
@@ -34,7 +35,10 @@ public class ColorSensorController {
 			provider = sensor.getRedMode();
 		else if(mode == ColorSensorModeEnum.RGBMode)
 			provider = sensor.getRGBMode();
-
+		else if(mode == ColorSensorModeEnum.ColorID)
+			provider = sensor.getColorIDMode();
+		
+	
 		/*
 		 * Use a filter on the sample. The filter needs a source (a sensor or
 		 * another filter) for the sample. The source is provided in the
@@ -118,6 +122,7 @@ public class ColorSensorController {
 		 */
 		public void fetchSample(float[] sample, int offset) {
 			super.fetchSample(sample, offset);
+			
 			for (int i = 0; i < sampleSize; i++) {
 				if (minimum[i] > sample[offset + i])
 					minimum[i] = sample[offset + i];
